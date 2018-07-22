@@ -29,7 +29,7 @@
       <ng-template pTemplate="body" let-product>
         <tr>
           <td>{{product.name}}</td>
-          <td class="text-center">{{product.quantity.value}}</td>
+          <td class="text-center">{{(product.quantity.value == '' ? '-' : product.quantity.value + product.quantity.unit)}}</td>
           <td class="text-center">{{product.price | currency:'BRL':true:'1.2-2'}}</td>
           <td class="text-center">{{product.perishable == 'true' ? 'Sim' : 'Não' }}</td>
           <td class="text-center">{{(product.date_validate | date: 'dd/MM/yyyy') || '-'}}</td>

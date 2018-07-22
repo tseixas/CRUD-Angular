@@ -13,7 +13,6 @@ export class AddComponent implements OnInit {
   units = [];
   msgs = [];
   form: FormGroup;
-  submitted: boolean;
   pt: any;
   product = 'false';
   unitType = null;
@@ -107,14 +106,13 @@ export class AddComponent implements OnInit {
   }
 
   onSubmit(value) {
-    this.submitted = true;
     this.msgs = [];
     const id = this.id;
     const obj = {
       id: null,
       name: this.form.value.name,
       quantity: {
-        value: this.form.value.quantity + ' ' + this.form.value.unit.code,
+        value: this.form.value.quantity,
         name: this.form.value.unit.name,
         unit: this.form.value.unit.code,
         quantity: this.form.value.quantity,
@@ -160,10 +158,6 @@ export class AddComponent implements OnInit {
         }, 2000);
       }
     }
-  }
-
-  get diagnostic() {
-    return JSON.stringify(this.form.value);
   }
 
 }
