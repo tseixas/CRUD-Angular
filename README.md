@@ -2,12 +2,12 @@
 
 Simple CRUD using LocalStorage.
 
-## Getting Started
-
 Project using:
 - Angular 6
 - Bootstrap 4 
 - PrimeNG
+
+## Getting Started
 
 ### Install dependences
 ```
