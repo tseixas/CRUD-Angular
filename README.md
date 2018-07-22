@@ -1,11 +1,10 @@
 # TexoIT-test
-# CRUD with LocalStorage
 
 Simple CRUD using LocalStorage.
 
 ## Getting Started
 
-Mini Project using:
+Project using:
 - Angular 6
 - Bootstrap 4 
 - PrimeNG
@@ -23,4 +22,3 @@ ng serve
 
 
 enjoy
-
