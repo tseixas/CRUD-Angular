@@ -1,0 +1,152 @@
+<div class="ui-g">
+  <div class="ui-g-12">
+
+    <p-growl [value]="msgs" sticky="sticky"></p-growl>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+      <p-panel header="{{headerPainel}}">
+
+        <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px;">
+
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-3">
+              Nome do Item *:
+            </div>
+            <div class="ui-grid-col-6">
+              <input pInputText type="text" formControlName="name" />
+            </div>
+            <div class="ui-grid-col-4">
+              <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!form.controls['name'].valid&&form.controls['name'].dirty">
+                <i class="fa fa-close"></i>
+                <span *ngIf="form.controls['name'].errors['required']">Nome é obrigatório</span>
+                <span *ngIf="form.controls['name'].errors['maxlength']">Máximo de 50 caracteres</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-3">
+              Unidade de medida *:
+            </div>
+            <div class="ui-grid-col-6">
+              <p-dropdown [options]="units" formControlName="unit" optionLabel="name" (onChange)="selectUnit()" [autoWidth]="false"></p-dropdown>
+            </div>
+            <div class="ui-grid-col-4">
+              <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!form.controls['unit'].valid&&form.controls['unit'].dirty">
+                <i class="fa fa-close"></i>
+                Unidade é obrigatório
+              </div>
+            </div>
+          </div>
+
+          <div class="ui-grid-row" *ngIf="unitType">
+            <div class="ui-grid-col-3">
+              Quantidade *:
+            </div>
+            <div class="ui-grid-col-6">
+              <div class="ui-inputgroup">
+                <input pInputText type="text" *ngIf="unitType == 'lt' || unitType == 'Kg'" formControlName="quantity" currencyMask [options]="{ prefix: '', decimal: '.', precision: 3 }"
+                  max="999.999" />
+                <input type="text" pInputText *ngIf="unitType == 'un'" pKeyFilter="int" formControlName="quantity" maxlength="3">
+                <span class="ui-inputgroup-addon">{{ unitType }}</span>
+              </div>
+            </div>
+            <div class="ui-grid-col-4">
+              <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!form.controls['quantity'].valid&&form.controls['quantity'].dirty">
+                <i class="fa fa-close"></i>
+                <span *ngIf="form.controls['quantity'].errors['max']">Valor Excedido</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-3">
+              Preço *:
+            </div>
+            <div class="ui-grid-col-6">
+              <input pInputText type="text" formControlName="price" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ','}"/>
+            </div>
+            <div class="ui-grid-col-4">
+              <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!form.controls['price'].valid&&form.controls['price'].dirty">
+                <i class="fa fa-close"></i>
+                <span *ngIf="form.controls['price'].errors['required']">Preço é obrigatório</span>
+                <span *ngIf="form.controls['price'].errors['max']">Valor Excedido</span>
+                <span *ngIf="form.controls['price'].errors['min']">Valor Inválido</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="ui-grid-row">
+            <div class="ui-grid-col-3">
+              Produto perecível? *:
+            </div>
+            <div class="ui-grid-col-6">
+
+              <div class="ui-g-3">
+                <p-radioButton name="product" value='true' label="Sim" formControlName="product" (onClick)="perishable(true)"></p-radioButton>
+              </div>
+              <div class="ui-g-3">
+                <p-radioButton name="product" value='false' label="Não" formControlName="product" (onClick)="perishable(false)"></p-radioButton>
+              </div>
+            </div>
+            <div class="ui-grid-col-4">
+              <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!form.controls['product'].valid&&form.controls['product'].dirty">
+                <i class="fa fa-close"></i>
+                Item obrigatório
+              </div>
+            </div>
+          </div>
+
+          <div class="ui-grid-row" *ngIf="statusPerishable">
+            <div class="ui-grid-col-3">
+              Date de fabricação *:
+            </div>
+            <div class="ui-grid-col-6">
+              <p-calendar formControlName="dateManufacture" [showIcon]="true" [locale]="pt" [minDate]="form.value.dateValidate" dateFormat="dd/mm/yy"></p-calendar>
+              <span style="margin-left:35px">{{dateManufacture|date}}</span>
+            </div>
+            <div class="ui-grid-col-4">
+              <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!form.controls['dateManufacture'].valid&&form.controls['dateManufacture'].dirty">
+                <i class="fa fa-close"></i>
+                Data de validade é obrigatório
+              </div>
+            </div>
+          </div>
+
+          <div class="ui-grid-row" *ngIf="statusPerishable">
+            <div class="ui-grid-col-3">
+              Date de validade *:
+            </div>
+            <div class="ui-grid-col-6">
+              <p-calendar formControlName="dateValidate" [showIcon]="true" [locale]="pt" dateFormat="dd/mm/yy" [minDate]="dateNow"></p-calendar>
+              <span style="margin-left:35px">{{dateValidate|date}}</span>
+            </div>
+            <div class="ui-grid-col-4">
+              <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!form.controls['dateValidate'].valid&&form.controls['dateValidate'].dirty">
+                <i class="fa fa-close"></i>
+                Data de validade é obrigatório
+              </div>
+            </div>
+          </div>
+
+          <div style="text-align:center;margin-top:20px" *ngIf="submitted">
+            Form Submitted
+            <br> {{diagnostic}}
+          </div>
+        </div>
+
+        <p-footer>
+          <div class="ui-g">
+            <div class="ui-g-12 ui-md-4 ui-md-offset-4">
+              <button pButton type="reset" icon="fa fa-close" label="Cancelar" routerLink="/list" class="ui-button-secondary mr-4"></button>
+              <button pButton type="submit" icon="pi pi-check" label="{{labelSave}}" [disabled]="!form.valid" class="ui-button-success"></button>
+            </div>
+          </div>
+        </p-footer>
+
+      </p-panel>
+    </form>
+
+
+  </div>
+</div>
