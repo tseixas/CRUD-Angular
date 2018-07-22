@@ -46,9 +46,8 @@ export class ListComponent implements OnInit {
         setTimeout(() => {
           this.clearViaService();
         }, 2000);
-      }, reject: () => {
-
-      });
+      }
+    });
   }
 
   clearViaService() {

@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('angular5-modules App', () => {
+describe('texoit-test App', () => {
   let page: AppPage;
 
   beforeEach(() => {
