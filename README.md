@@ -11,7 +11,7 @@ Project using:
 
 ### Install dependences
 ```
-cd texoit-test && npm install
+cd CRUD-Angular && npm install
 ```
 
 ### Running App
